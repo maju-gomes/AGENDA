@@ -31,9 +31,10 @@ class ManterClienteUI:
         nome = st.text_input("Informe o nome:")
         email = st.text_input("Informe o e-mail:")
         fone = st.text_input("Informe o telefone:")
+        senha = st.text_input("Informe a senha:", type="password")
 
         if st.button("Inserir"):
-            ClienteView.inserir_cliente(nome, email, fone)
+            ClienteView.inserir_cliente(nome, email, fone, senha)
             st.success("Cliente inserido com sucesso")
             time.sleep(2)
             st.rerun()
@@ -47,9 +48,10 @@ class ManterClienteUI:
             nome = st.text_input("Novo nome:", opcao.get_nome())
             email = st.text_input("Novo e-mail:", opcao.get_email())
             fone = st.text_input("Novo telefone:", opcao.get_fone())
+            senha = st.text_input("Nova senha:", opcao.get_senha(), type="password")
             if st.button("Atualizar"):
                 id = opcao.get_id()
-                ClienteView.atualizar_cliente(id, nome, email, fone)
+                ClienteView.atualizar_cliente(id, nome, email, fone, senha)
                 st.success("Cliente atualizado com sucesso")
 
     def excluir():

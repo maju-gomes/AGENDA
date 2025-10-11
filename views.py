@@ -11,17 +11,23 @@ class ClienteView:
         return ClienteDAO.listar_id(id)
     
     # para adicionar um cliente são obrigatórios os parâmetros
-    def inserir_cliente(nome, email, fone):
-        cliente = Cliente(0, nome, email, fone)
+    def inserir_cliente(nome, email, fone, senha):
+        cliente = Cliente(0, nome, email, fone, senha)
         ClienteDAO.inserir(cliente)
     
-    def atualizar_cliente(id, nome, email, fone):
-        cliente = Cliente(id, nome, email, fone)
+    def atualizar_cliente(id, nome, email, fone, senha):
+        cliente = Cliente(id, nome, email, fone, senha)
         ClienteDAO.atualizar(cliente)
 
     def excluir_cliente(id):
-        cliente = Cliente(id, "", "", "")
+        cliente = Cliente(id, "", "", "", "")
         ClienteDAO.excluir(cliente)
+
+    def autenticar_cliente(email, senha):
+        for cliente in ClienteView.listar_cliente():
+            if cliente.get_email() == email and cliente.get_senha() == senha:
+                return {"id": cliente.get_id(), "nome": cliente.get_nome()}
+        return None
 
 class ServicoView:
     def listar_servico():
