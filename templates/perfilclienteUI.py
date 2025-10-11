@@ -1,5 +1,5 @@
 import streamlit as st
-from views import ClienteView, ServicoView, HoraroiView, ProfissionalView
+from views import ClienteView, ServicoView, HorarioView, ProfissionalView
 import time
 
 class PerfilClienteUI:

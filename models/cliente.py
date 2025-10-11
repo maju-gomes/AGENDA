@@ -21,7 +21,7 @@ class Cliente:
         self.__email = email
     def set_fone(self, fone): 
         self.__fone = fone
-    def set_senha(self, senha)
+    def set_senha(self, senha):
         self.__senha = senha
 
     def get_id(self):

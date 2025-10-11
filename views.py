@@ -28,6 +28,12 @@ class ClienteView:
             if cliente.get_email() == email and cliente.get_senha() == senha:
                 return {"id": cliente.get_id(), "nome": cliente.get_nome()}
         return None
+    
+    def criar_cliente_admin():
+        for cliente in ClienteView.listar_cliente():
+            if cliente.get_email() == "admin":
+                return
+            ClienteView.inserir_cliente("admin", "admin", "fone", "1234")
 
 class ServicoView:
     def listar_servico():

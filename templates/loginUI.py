@@ -8,7 +8,7 @@ class LoginUI:
         senha = st.text_input("Informe a senha:", type="password")
 
         if st.button("Entrar"):
-            cliente = ClienteView.autenticar_cliente()
+            cliente = ClienteView.autenticar_cliente(email, senha)
             if cliente == None:
                 st.write("E-mail ou senha inválidos")
             else:
