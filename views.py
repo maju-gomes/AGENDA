@@ -88,14 +88,20 @@ class ProfissionalView:
         return ProfissionalDAO.listar_id(id)
     
     # para adicionar um cliente são obrigatórios os parâmetros
-    def inserir_profissional(nome, especialidade, conselho):
-        profissional = Profissional(0, nome, especialidade, conselho)
+    def inserir_profissional(nome, especialidade, conselho, email, senha):
+        profissional = Profissional(0, nome, especialidade, conselho, email, senha)
         ProfissionalDAO.inserir(profissional)
     
-    def atualizar_profissional(id, nome, especialidade, conselho):
-        profissional = Profissional(id, nome, especialidade, conselho)
+    def atualizar_profissional(id, nome, especialidade, conselho, email, senha):
+        profissional = Profissional(id, nome, especialidade, conselho, email, senha)
         ProfissionalDAO.atualizar(profissional)
 
     def excluir_cliente(id):
-        profissional = Cliente(id, "", "", "")
+        profissional = Cliente(id, "", "", "", "", "")
         ProfissionalDAO.excluir(profissional)
+
+    def autenticar_profissional(email, senha):
+        for profissional in ProfissionalDAO.listar():
+            if profissional.get_email() == email and profissional.get_senha() == senha:
+                return {"id": profissional.get_id(), "nome": profissional.get_nome()}
+        return None

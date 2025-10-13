@@ -10,7 +10,7 @@ class Cliente:
         self.__senha = senha
 
     def __str__(self):
-        return f"{self.__id} - {self.__nome} - {self.__email} - {self.__fone} - {self.__senha}"
+        return f"{self.__id} - {self.__nome} - {self.__email} - {self.__fone}"
     
     # SETS E GETS
     def set_id(self, id): 
@@ -87,8 +87,12 @@ class ClienteDAO:
 
     @classmethod
     def listar(cls):
-        cls.abrir()
-        return cls.__objetos
+        try:
+            with open("cliente.json") as arquivo:
+                lista = json.load(arquivo)
+        except FileNotFoundError:
+            lista = []
+        return [Cliente(**cliente) for cliente in lista]
 
     @classmethod
     def listar_id(cls, id):
@@ -113,4 +117,9 @@ class ClienteDAO:
             cls.__objetos.remove(cliente)
             cls.salvar()
 
-    
+    @classmethod
+    def autenticar(cls, email, senha):
+        for cliente in ClienteDAO.listar():
+            if cliente.get_email() == email and cliente.get_senha() == senha:
+                return cliente
+        return None

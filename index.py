@@ -1,5 +1,6 @@
 # aqui terá a classe principal que acessa página em template
 
+from models import cliente
 from templates.manterclienteUI import ManterClienteUI
 from templates.manterservicoUI import ManterServicoUI
 from templates.manterhorarioUI import ManterHorarioUI
@@ -7,6 +8,7 @@ from templates.manterprofissionalUI import ManterProfissionalUI
 from templates.abrircontaUI import AbrirContaUI
 from templates.loginUI import LoginUI
 from templates.perfilclienteUI import PerfilClienteUI
+from templates.perfilprofissionalUI import PerfilProfissionalUI
 from views import ClienteView, ServicoView, HorarioView, ProfissionalView
 import streamlit as st
 
@@ -20,9 +22,18 @@ class IndexUI:
             AbrirContaUI.main()
 
     def menu_cliente():
-        opcao = st.sidebar.selectbox("Menu", ["Meus Dados"])
+        opcao = st.sidebar.selectbox("Menu", ["Meus Dados", "Meus Horários"])
         if opcao == "Meus Dados":
             PerfilClienteUI.main()
+        if opcao == "Meus Horários":
+            ManterHorarioUI.listar_horarios_cliente(cliente)
+
+    def menu_profissional():
+        opcao = st.sidebar.selectbox("Menu", ["Meus Dados"])
+        if opcao == "Meus Dados":
+            from templates.perfilprofissionalUI import PerfilProfissionalUI
+            PerfilProfissionalUI.main()
+
 
     def menu_admin():            
         opcao = st.sidebar.selectbox("Menu", ["Cadastro de Clientes", "Cadastro de Serviços", "Cadastro de Horários", "Cadastro de Profissionais"])
@@ -38,16 +49,19 @@ class IndexUI:
             st.rerun()
 
     def sidebar():
-        if "usuario_id" not in st.session_state:
+        if "id_usuario" not in st.session_state:
             IndexUI.menu_visitante()
         else:
             admin = st.session_state["nome_usuario"] == "admin"
+            tipo = st.session_state.get("tipo_usuario", "")
             st.sidebar.write("Bem-vindo(a), " + st.session_state["nome_usuario"] + "!")
             if admin:
                 IndexUI.menu_admin()
-            else:
+            elif tipo == "cliente":
                 IndexUI.menu_cliente()
-            IndexUI.sair_do_sistema()
+            elif tipo == "profissional":
+                IndexUI.menu_profissional()
+        IndexUI.sair_do_sistema()
 
     def main():
         # verifica a existência do usuário admin

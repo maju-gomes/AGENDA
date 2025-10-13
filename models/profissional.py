@@ -1,14 +1,16 @@
 import json
 
 class Profissional:
-    def __init__(self, id, nome, especialidade, conselho):
+    def __init__(self, id, nome, especialidade, conselho, email, senha):
         self.__id = id
         self.__nome = nome
         self.__especialidade = especialidade
         self.__conselho = conselho
+        self.__email = email
+        self.__senha = senha
 
     def __str__(self):
-        return f"{self.__id} - {self.__nome} - {self.__especialidade} - {self.__conselho}"
+        return f"{self.__id} - {self.__nome} - {self.__especialidade} - {self.__conselho} - {self.__email}"
     
     def set_id(self, id):
         self.__id = id
@@ -17,7 +19,11 @@ class Profissional:
     def set_especialidade(self, especialidade):
         self.__especialidade = especialidade
     def set_conselho(self, conselho):
-        self.__coonselho = conselho
+        self.__conselho = conselho
+    def set_email(self, email):
+        self.__email = email
+    def set_senha(self, senha):
+        self.__senha = senha
 
     def get_id(self):
         return self.__id
@@ -27,17 +33,21 @@ class Profissional:
         return self.__especialidade
     def get_conselho(self):
         return self.__conselho
+    def get_senha(self):
+        return self.__senha
+    def get_email(self):
+        return self.__email
     
     def to_json(self):
-        dic = {"id": self.__id, "nome": self.__nome, "especialidade": self.__especialidade, "conselho": self.__conselho}
+        dic = {"id": self.__id, "nome": self.__nome, "especialidade": self.__especialidade, "conselho": self.__conselho, "email": self.__email, "senha": self.__senha}
         return dic
     
     @staticmethod
     def from_json(dic):
-        return Profissional(dic["id"], dic["nome"], dic["especialidade"], dic["conselho"])
+        return Profissional(dic["id"], dic["nome"], dic["especialidade"], dic["conselho"], dic["email"], dic["senha"])
     
 class ProfissionalDAO:
-    _objetos = []
+    __objetos = []
 
     # abrir e salvar são os métodos mais importantes?
     @classmethod
@@ -75,8 +85,12 @@ class ProfissionalDAO:
 
     @classmethod
     def listar(cls):
-        cls.abrir()
-        return cls.__objetos
+        try:
+            with open("profissional.json") as arquivo:
+                lista = json.load(arquivo)
+        except FileNotFoundError:
+            lista = []
+        return [Profissional(**profissional) for profissional in lista]
 
     @classmethod
     def listar_id(cls, id):
@@ -100,5 +114,13 @@ class ProfissionalDAO:
         if profissional != None:
             cls.__objetos.remove(profissional)
             cls.salvar()
+
+    @classmethod
+    def autenticar(cls, email, senha):
+        for profissional in ProfissionalDAO.listar():
+            if profissional.get_email() == email and profissional.get_senha() == senha:
+                return profissional
+        return None
+
 
     
