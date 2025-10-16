@@ -26,6 +26,7 @@ class IndexUI:
         if opcao == "Meus Dados":
             PerfilClienteUI.main()
         if opcao == "Meus Horários":
+            # buscar o argumento
             ManterHorarioUI.listar_horarios_cliente(cliente)
 
     def menu_profissional():

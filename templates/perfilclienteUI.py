@@ -8,8 +8,8 @@ class PerfilClienteUI:
         opcao = ClienteView.listar_id_cliente(st.session_state["id_usuario"])
         nome = st.text_input("Informe o novo nome:", opcao.get_nome())
         email = st.text_input("Informe o novo e-mail:", opcao.get_email())
-        fone = st.text_input("Informe o novo", opcao.get_fone())
-        senha = st.text_input("Informe o novo", opcao.get_senha(), type="password")
+        fone = st.text_input("Informe o novo telefone:", opcao.get_fone())
+        senha = st.text_input("Informe a nova senha:", opcao.get_senha(), type="password")
 
         if st.button("Atualizar"):
             id = opcao.get_id()
