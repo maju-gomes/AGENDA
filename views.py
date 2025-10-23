@@ -2,10 +2,13 @@ from models.cliente import Cliente, ClienteDAO
 from models.servico import Servico, ServicoDAO
 from models.horario import Horario, HorarioDAO
 from models.profissional import Profissional, ProfissionalDAO
+from datetime import datetime
 
 class ClienteView:
     def listar_cliente():
-        return ClienteDAO.listar()
+        cliente = ClienteDAO.listar()
+        cliente.sort(key = lambda obj: obj.get_nome())
+        return cliente
     
     def listar_id_cliente(id):
         return ClienteDAO.listar_id(id)
@@ -36,7 +39,9 @@ class ClienteView:
 
 class ServicoView:
     def listar_servico():
-        return ServicoDAO.listar()
+        servico = ServicoDAO.listar()
+        servico.sort(key = lambda obj: obj.get_descricao())
+        return servico
 
     def listar_id_servico(id):
         return ServicoDAO.listar_id(id)
@@ -63,7 +68,9 @@ class HorarioView:
         HorarioDAO.inserir(obj)
 
     def listar_horario():
-        return HorarioDAO.listar()
+        horario = HorarioDAO.listar()
+        horario.sort(key = lambda obj: obj.get_data())
+        return horario
     
     def atualizar_horario(id, data, confirmado, id_cliente, id_servico, id_profissional):
         obj = Horario(id, data)
@@ -77,9 +84,21 @@ class HorarioView:
         obj = Horario(id, None)
         HorarioDAO.excluir()
 
+    # aqui o método tem parâmetros
+    def horario_agendar_horario(id_profissional):
+        horario = []
+        agora = datetime.now()
+        for hora in HorarioView.listar_horario():
+            if hora.get_data() >= agora and hora.get_confirmado() == False and hora.get_id_cliente() == None and hora.get_id_profissional():
+                horario.append(hora)
+        horario.sort(key = lambda hora: hora.get_data())
+        return horario
+
 class ProfissionalView:
     def listar_profissional():
-        return ProfissionalDAO.listar()
+        profissional = ProfissionalDAO.listar()
+        profissional.sort(key = lambda obj: obj.get_nome())
+        return profissional
     
     def listar_id_profissional(id):
         return ProfissionalDAO.listar_id(id)

@@ -1,6 +1,7 @@
 # aqui terá a classe principal que acessa página em template
 
 from models import cliente
+from templates.agendarservicoUI import AgendarServicoUI
 from templates.manterclienteUI import ManterClienteUI
 from templates.manterservicoUI import ManterServicoUI
 from templates.manterhorarioUI import ManterHorarioUI
@@ -22,12 +23,11 @@ class IndexUI:
             AbrirContaUI.main()
 
     def menu_cliente():
-        opcao = st.sidebar.selectbox("Menu", ["Meus Dados", "Meus Horários"])
+        opcao = st.sidebar.selectbox("Menu", ["Meus Dados", "Agendar Serviço"])
         if opcao == "Meus Dados":
             PerfilClienteUI.main()
-        if opcao == "Meus Horários":
-            # buscar o argumento
-            ManterHorarioUI.listar_horarios_cliente(cliente)
+        if opcao == "Agendar Serviço":
+            AgendarServicoUI.main()
 
     def menu_profissional():
         opcao = st.sidebar.selectbox("Menu", ["Meus Dados"])
